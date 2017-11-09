@@ -1,20 +1,95 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.example.william.robot_app.MainActivity">
+    android:layout_height="match_parent">
 
     <Button
         android:id="@+id/playButton"
-        android:layout_width="119dp"
-        android:layout_height="46dp"
-        android:text="@string/play"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:onClick="onClick"
+        android:text="Play" />
 
-</android.support.constraint.ConstraintLayout>
+    <Button
+        android:id="@+id/answerA"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/playButton"
+        android:layout_marginEnd="24dp"
+        android:layout_marginTop="47dp"
+        android:layout_toStartOf="@+id/playButton"
+        android:onClick="onClick"
+        android:text="Button" />
+
+    <Button
+        android:id="@+id/answerB"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/answerA"
+        android:layout_alignBottom="@+id/answerA"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="24dp"
+        android:onClick="onClick"
+        android:text="Button" />
+
+    <Button
+        android:id="@+id/answerC"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignStart="@+id/answerA"
+        android:layout_marginBottom="30dp"
+        android:onClick="onClick"
+        android:text="Button" />
+
+    <Button
+        android:id="@+id/answerD"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/answerB"
+        android:layout_alignTop="@+id/answerC"
+        android:onClick="onClick"
+        android:text="Button" />
+
+    <TextView
+        android:id="@+id/questionText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="33dp"
+        android:fontFamily="sans-serif"
+        android:text="Select Your Difficulty"
+        android:textSize="18sp" />
+
+    <Button
+        android:id="@+id/difficultySelectionEasy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/playButton"
+        android:layout_below="@+id/questionText"
+        android:layout_marginTop="36dp"
+        android:onClick="onClick"
+        android:text="Easy" />
+
+    <Button
+        android:id="@+id/difficultySelectionMedium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/difficultySelectionEasy"
+        android:layout_below="@+id/difficultySelectionEasy"
+        android:layout_marginTop="15dp"
+        android:onClick="onClick"
+        android:text="Medium" />
+
+    <Button
+        android:id="@+id/difficultySelectionHard"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/playButton"
+        android:layout_alignStart="@+id/playButton"
+        android:onClick="onClick"
+        android:text="Hard" />
+</RelativeLayout>

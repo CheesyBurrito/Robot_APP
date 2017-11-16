@@ -1,6 +1,7 @@
 package com.example.william.robot_app;
 
 import java.io.BufferedReader;
+import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -49,11 +50,12 @@ public class Server {
                 // create ServerSocket using specified port
                 serverSocket = new ServerSocket(socketServerPORT);
 
+
                 while (true) {
                     // block the call until connection is created and return
                     // Socket object
                     Socket socket = serverSocket.accept();
-
+                    DataInputStream dIn = new DataInputStream(socket.getInputStream());
 
                     //BufferedReader inputs = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
@@ -64,6 +66,8 @@ public class Server {
 
                    // message = inputs.readLine();
 
+                    //read input from client
+                    message = dIn.readUTF();
 
 
                     activity.runOnUiThread(new Runnable() {

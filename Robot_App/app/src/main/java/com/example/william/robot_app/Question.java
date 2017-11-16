@@ -96,27 +96,83 @@ public abstract class Question {
         }
     }
 
-    public String obtainQuestionHard(int indexQuestion){
+    public String obtainQuestion(int indexQuestion){
+        switch(questionDifficulty){
+            case 0:{
+                return this.obtainQuestionEasy(indexQuestion);
+            }
+            case 1: {
+                return this.obtainQuestionMedium(indexQuestion);
+            }
+            case 2: {
+                return this.obtainQuestionHard(indexQuestion);
+            }
+
+        }
+
+        return "ERROR IN QUESTION DIFFICULTY INDEX";
+    }
+
+    public String obtainAnswer(int indexQuestion, int answerIndex){
+        switch(questionDifficulty){
+            case 0:{
+                return this.obtainAnswersEasy(indexQuestion, answerIndex);
+            }
+            case 1: {
+                return this.obtainAnswersMedium(indexQuestion, answerIndex);
+            }
+            case 2: {
+                return this.obtainAnswersHard(indexQuestion, answerIndex);
+            }
+
+        }
+
+        return "ERROR IN QUESTION DIFFICULTY INDEX";
+    }
+
+    public int obtainGoodAnswers(int indexQuestion){
+        switch(questionDifficulty){
+            case 0:{
+                return this.getGoodAnswerEasy()[indexQuestion];
+            }
+            case 1: {
+                return this.getGoodAnswerMedium()[indexQuestion];
+            }
+            case 2: {
+                return this.getGoodAnswerHard()[indexQuestion];
+            }
+
+        }
+
+        //Returns an error code
+        return -1;
+    }
+
+
+
+    private String obtainQuestionHard(int indexQuestion){
         return questionsHard[indexQuestion];
     }
 
-    public String obtainQuestionMedium(int indexQuestion){
+    private String obtainQuestionMedium(int indexQuestion){
         return questionsMedium[indexQuestion];
     }
 
-    public String obtainQuestionEasy(int indexQuestion){
+    private String obtainQuestionEasy(int indexQuestion){
         return questionsEasy[indexQuestion];
     }
 
-    public String obtainAnswersEasy(int questionIndex, int answerIndex){
+
+
+    private String obtainAnswersEasy(int questionIndex, int answerIndex){
         return answersEasy[questionIndex][answerIndex];
     }
 
-    public String obtainAnswersMedium(int questionIndex, int answerIndex){
+    private String obtainAnswersMedium(int questionIndex, int answerIndex){
         return answersMedium[questionIndex][answerIndex];
     }
 
-    public String obtainAnswersHard(int questionIndex, int answerIndex){
+    private String obtainAnswersHard(int questionIndex, int answerIndex){
         return answersHard[questionIndex][answerIndex];
     }
 

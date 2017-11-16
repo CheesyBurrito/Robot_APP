@@ -45,6 +45,7 @@ public abstract class Question {
     //A second to determine if the questions were already asked
     private boolean[] questionsAskedHard = new boolean[numOfQuestions];
 
+    //Setting the abstract methods
     protected abstract void setupQuestions();
     protected abstract void setupQuestionsEasy();
     protected abstract void setupQuestionsMedium();
@@ -148,8 +149,6 @@ public abstract class Question {
         return -1;
     }
 
-
-
     private String obtainQuestionHard(int indexQuestion){
         return questionsHard[indexQuestion];
     }
@@ -161,8 +160,6 @@ public abstract class Question {
     private String obtainQuestionEasy(int indexQuestion){
         return questionsEasy[indexQuestion];
     }
-
-
 
     private String obtainAnswersEasy(int questionIndex, int answerIndex){
         return answersEasy[questionIndex][answerIndex];

@@ -40,13 +40,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //startServerSocket();
         //Initializing all UI elements
 
         infoip = (TextView) findViewById(R.id.infoip);
         msg = (TextView) findViewById(R.id.msg);
-        //server = new Server(this);
-        //infoip.setText(server.getIpAddress() + ":" + server.getPort());
+        server = new Server(this);
+        //infoip.setText(server.getIpAddress() + ":" + server.getPort() + "\n");
         playButton = (Button) findViewById(R.id.playButton);
         questionText = (TextView) findViewById(R.id.questionText);
         answerA = (Button) findViewById(R.id.answerA);
@@ -72,7 +71,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onDestroy();
         server.onDestroy();
     }
-    
+
     public void startGame(){
         //Contains the logic for the game
 

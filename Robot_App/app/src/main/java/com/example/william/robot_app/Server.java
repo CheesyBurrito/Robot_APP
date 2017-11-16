@@ -1,11 +1,15 @@
 package com.example.william.robot_app;
 
+import android.util.Log;
+
 import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintStream;
+import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.ServerSocket;
@@ -13,11 +17,14 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.util.Enumeration;
 
+/**
+ * Created by William on 11/9/2017.
+ */
 public class Server {
     MainActivity activity;
     ServerSocket serverSocket;
     String message = "";
-    static final int socketServerPORT = 8080;
+    static final int socketServerPORT = 1234;
 
     public Server(MainActivity activity) {
         this.activity = activity;
@@ -49,25 +56,27 @@ public class Server {
             try {
                 // create ServerSocket using specified port
                 serverSocket = new ServerSocket(socketServerPORT);
-
+                //InputStream inStream;
 
                 while (true) {
                     // block the call until connection is created and return
                     // Socket object
                     Socket socket = serverSocket.accept();
                     DataInputStream dIn = new DataInputStream(socket.getInputStream());
+                    System.out.println("Apres lecture");
+                    String messageFromClient = "";
+                    messageFromClient = dIn.readUTF();
 
-                    //BufferedReader inputs = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
                     count++;
-                    message += "#" + count + " from "
-                            + socket.getInetAddress() + ":"
-                            + socket.getPort() + "\n";
+                    message += "#" + count + " from " + socket.getInetAddress()
+                            + ":" + socket.getPort() + "\n"
+                            + "Msg from client: " + messageFromClient + "\n";
 
-                   // message = inputs.readLine();
 
-                    //read input from client
-                    message = dIn.readUTF();
+
+
+                    System.out.println("Apres ecriture");
 
 
                     activity.runOnUiThread(new Runnable() {
@@ -104,21 +113,14 @@ public class Server {
             OutputStream outputStream;
             String msgReply = "Hello from Server, you are #" + cnt;
 
-
-
             try {
-
+                System.out.println("HEY3");
                 outputStream = hostThreadSocket.getOutputStream();
                 PrintStream printStream = new PrintStream(outputStream);
                 printStream.print(msgReply);
                 printStream.close();
 
-
-
-
                 message += "replayed: " + msgReply + "\n";
-
-
 
                 activity.runOnUiThread(new Runnable() {
 

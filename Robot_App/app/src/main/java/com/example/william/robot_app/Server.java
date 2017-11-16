@@ -63,20 +63,18 @@ public class Server {
                     // Socket object
                     Socket socket = serverSocket.accept();
                     DataInputStream dIn = new DataInputStream(socket.getInputStream());
-                    System.out.println("Apres lecture");
                     String messageFromClient = "";
-                    messageFromClient = dIn.readUTF();
+
+
+                    if(dIn.available() > 0){
+                        messageFromClient = dIn.readUTF();
+                    }
 
 
                     count++;
                     message += "#" + count + " from " + socket.getInetAddress()
                             + ":" + socket.getPort() + "\n"
                             + "Msg from client: " + messageFromClient + "\n";
-
-
-
-
-                    System.out.println("Apres ecriture");
 
 
                     activity.runOnUiThread(new Runnable() {
@@ -114,7 +112,6 @@ public class Server {
             String msgReply = "Hello from Server, you are #" + cnt;
 
             try {
-                System.out.println("HEY3");
                 outputStream = hostThreadSocket.getOutputStream();
                 PrintStream printStream = new PrintStream(outputStream);
                 printStream.print(msgReply);

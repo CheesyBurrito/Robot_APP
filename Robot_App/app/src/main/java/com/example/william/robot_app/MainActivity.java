@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         infoip = (TextView) findViewById(R.id.infoip);
         msg = (TextView) findViewById(R.id.msg);
         server = new Server(this);
-        //infoip.setText(server.getIpAddress() + ":" + server.getPort() + "\n");
+        infoip.setText(server.getIpAddress() + ":" + server.getPort() + "\n");
         playButton = (Button) findViewById(R.id.playButton);
         questionText = (TextView) findViewById(R.id.questionText);
         answerA = (Button) findViewById(R.id.answerA);
@@ -55,8 +55,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         difficultySelectionEasy = (Button) findViewById(R.id.difficultySelectionEasy);
         difficultySelectionMedium = (Button) findViewById(R.id.difficultySelectionMedium);
         difficultySelectionHard = (Button) findViewById(R.id.difficultySelectionHard);
-
-
 
 
         //Starting the UI
@@ -124,7 +122,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public void updateUIDifficultySelection(){
         questionText.setVisibility(View.VISIBLE);
-        questionText.setText("Choose a difficulty");
+        questionText.setText("Choisissez votre diificulté");
         difficultySelectionEasy.setActivated(true);
         difficultySelectionMedium.setActivated(true);
         difficultySelectionHard.setActivated(true);
@@ -182,10 +180,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     //Change so that the check is through the robot
     public void verifyAnswers(int indexButtonClicked, int questionCategoryIndex){
         if(categoryQuestionArray[questionCategoryIndex].obtainGoodAnswers(questionCategoryIndex) == indexButtonClicked){
-            questionText.setText("GOOD!");
+            questionText.setText("Correct!");
         }
         else{
-            questionText.setText("BAD!");
+            questionText.setText("Mauvais!");
         }
     }
 

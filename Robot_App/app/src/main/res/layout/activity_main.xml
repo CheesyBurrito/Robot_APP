@@ -10,19 +10,26 @@
         android:layout_marginBottom="20dp"
         android:layout_marginTop="20dp"
         android:autoLink="web"
-        android:textStyle="bold"/>
+        android:textStyle="bold"
+        android:id="@+id/textView" />
 
     <TextView
         android:id="@+id/infoip"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal" />
+        android:layout_alignParentTop="true"
+        android:layout_gravity="center_horizontal"
+        android:layout_toEndOf="@+id/textView" />
 
 
     <TextView
         android:id="@+id/msg"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/textView"
+        android:layout_marginEnd="11dp"
+        android:layout_toEndOf="@+id/textView" />
 
     <Button
         android:id="@+id/playButton"
@@ -31,7 +38,7 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:onClick="onClick"
-        android:text="Play" />
+        android:text="Jouer" />
 
     <Button
         android:id="@+id/answerA"
@@ -82,7 +89,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="33dp"
         android:fontFamily="sans-serif"
-        android:text="Select Your Difficulty"
+        android:text="Choisissez votre diificulté"
         android:textSize="18sp" />
 
     <Button
@@ -93,7 +100,7 @@
         android:layout_below="@+id/questionText"
         android:layout_marginTop="36dp"
         android:onClick="onClick"
-        android:text="Easy" />
+        android:text="Facile" />
 
     <Button
         android:id="@+id/difficultySelectionMedium"
@@ -103,7 +110,7 @@
         android:layout_below="@+id/difficultySelectionEasy"
         android:layout_marginTop="15dp"
         android:onClick="onClick"
-        android:text="Medium" />
+        android:text="Moyen" />
 
     <Button
         android:id="@+id/difficultySelectionHard"
@@ -112,5 +119,5 @@
         android:layout_alignStart="@+id/playButton"
         android:layout_alignTop="@+id/playButton"
         android:onClick="onClick"
-        android:text="Hard" />
+        android:text="Difficile" />
 </RelativeLayout>

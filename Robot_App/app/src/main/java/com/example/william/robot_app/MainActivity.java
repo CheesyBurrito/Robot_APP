@@ -1,6 +1,7 @@
 package com.example.william.robot_app;
 
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -80,6 +81,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         categoryQuestionArray[3] = geographyQuestion;
         categoryQuestionArray[4] = popCultureQuestion;
         askQuestion(currentIndexQuestionCategory);
+
+        new CountDownTimer(30000, 1000) {
+
+            public void onTick(long millisUntilFinished) {
+                questionText.setText("Temps restant: " + millisUntilFinished / 1000);
+            }
+
+            public void onFinish() {
+                questionText.setText("Terminé!");
+            }
+        }.start();
+
 
         //How to wait for next turn?
         //Need to implement codes for colors, questions status,

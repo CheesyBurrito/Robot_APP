@@ -21,15 +21,75 @@ import java.util.Enumeration;
  * Created by William on 11/9/2017.
  */
 public class Server {
+    //Receive port: 9002
+    //Send port: 1234
     MainActivity activity;
     ServerSocket serverSocket;
     String message = "";
     static final int socketServerPORT = 1234;
+    private boolean end = false;
 
     public Server(MainActivity activity) {
         this.activity = activity;
         Thread socketServerThread = new Thread(new SocketServerThread());
         socketServerThread.start();
+        startServerSocket();
+    }
+
+    private void startServerSocket() {
+
+        Thread thread = new Thread(new Runnable() {
+
+            private String stringData = null;
+
+            @Override
+            public void run() {
+
+                try {
+
+                    ServerSocket ss = new ServerSocket(9002);
+
+                    while (!end) {
+                        //Server is waiting for client here, if needed
+                        Socket s = ss.accept();
+                        BufferedReader input = new BufferedReader(new InputStreamReader(s.getInputStream()));
+                        PrintWriter output = new PrintWriter(s.getOutputStream());
+
+                        stringData = input.readLine();
+                        output.println("FROM SERVER - " + stringData.toUpperCase());
+                        output.flush();
+
+                        try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+
+                        //Handles the received string
+                        activity.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                activity.handleReceivedData(stringData);
+                            }
+                        });
+                        if (stringData.equalsIgnoreCase("STOP")) {
+                            end = true;
+                            output.close();
+                            s.close();
+                            break;
+                        }
+
+                        output.close();
+                        s.close();
+                    }
+                    ss.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        });
+        thread.start();
     }
 
     public int getPort() {
@@ -80,7 +140,7 @@ public class Server {
                     activity.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            activity.msg.setText(message);
+                            //activity.msg.setText(message);
                         }
                     });
 
@@ -123,7 +183,7 @@ public class Server {
 
                     @Override
                     public void run() {
-                        activity.msg.setText(message);
+                        //activity.msg.setText(message);
                     }
                 });
 
@@ -137,7 +197,7 @@ public class Server {
 
                 @Override
                 public void run() {
-                    activity.msg.setText(message);
+                   // activity.msg.setText(message);
                 }
             });
         }

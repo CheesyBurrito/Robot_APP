@@ -17,11 +17,10 @@ import java.net.Socket;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private String clientIPAddress = "192.168.0.1";
     final Handler handler = new Handler();
     private int currentQuestionIndex = 0;
     private int currentIndexQuestionCategory = 0;
-    private TextView questionText;
+    TextView questionText;
     private Button playButton;
     private Button difficultySelectionEasy;
     private Button difficultySelectionMedium;
@@ -39,7 +38,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private PopCultureQuestion popCultureQuestion;
     private ScienceQuestion scienceQuestion;
     private Question[] categoryQuestionArray = new Question[5];
-    private boolean end = false;
     Server server;
     TextView infoip, msg;
 
@@ -53,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         infoip = (TextView) findViewById(R.id.infoip);
         msg = (TextView) findViewById(R.id.msg);
         server = new Server(this);
-        infoip.setText(server.getIpAddress() + ":" + server.getPort() + "\n");
+        //infoip.setText(server.getIpAddress() + ":" + server.getPort() + "\n");
         playButton = (Button) findViewById(R.id.playButton);
         questionText = (TextView) findViewById(R.id.questionText);
         answerA = (Button) findViewById(R.id.answerA);
@@ -78,68 +76,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         server.onDestroy();
     }
 
-    private void startServerSocket() {
-
-        Thread thread = new Thread(new Runnable() {
-
-            private String stringData = null;
-
-            @Override
-            public void run() {
-
-                try {
-
-                    ServerSocket ss = new ServerSocket(9002);
-
-                    while (!end) {
-                        //Server is waiting for client here, if needed
-                        Socket s = ss.accept();
-                        BufferedReader input = new BufferedReader(new InputStreamReader(s.getInputStream()));
-                        PrintWriter output = new PrintWriter(s.getOutputStream());
-
-                        stringData = input.readLine();
-                        output.println("FROM SERVER - " + stringData.toUpperCase());
-                        output.flush();
-
-                        try {
-                            Thread.sleep(1000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                        updateUI(stringData);
-                        if (stringData.equalsIgnoreCase("STOP")) {
-                            end = true;
-                            output.close();
-                            s.close();
-                            break;
-                        }
-
-                        output.close();
-                        s.close();
-                    }
-                    ss.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-
-        });
-        thread.start();
-    }
-
-    private void updateUI(final String stringData) {
-
-        handler.post(new Runnable() {
-            @Override
-            public void run() {
-
-                String s = textViewDataFromClient.getText().toString();
-                if (stringData.trim().length() != 0)
-                    textViewDataFromClient.setText(s + "\n" + "From Client : " + stringData);
-            }
-        });
-    }
-
     public void startGame(){
         //Contains the logic for the game
 
@@ -154,11 +90,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         new CountDownTimer(30000, 1000) {
 
             public void onTick(long millisUntilFinished) {
-                questionText.setText("Temps restant: " + millisUntilFinished / 1000);
+                //questionText.setText("Temps restant: " + millisUntilFinished / 1000);
             }
 
             public void onFinish() {
-                questionText.setText("Terminé!");
+                //questionText.setText("Terminé!");
             }
         }.start();
 
@@ -190,6 +126,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
          * 14- waits for other robot's turn to end???????????????
          *
          */
+    }
+
+    public void handleReceivedData(String dataReceived){
+
     }
 
     public void removeUIDifficultySelection(){

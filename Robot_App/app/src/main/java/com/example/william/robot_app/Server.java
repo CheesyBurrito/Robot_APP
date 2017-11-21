@@ -140,7 +140,7 @@ public class Server {
                     activity.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            //activity.msg.setText(message);
+                            //activity.questionText.setText(message);
                         }
                     });
 
@@ -169,15 +169,23 @@ public class Server {
         @Override
         public void run() {
             OutputStream outputStream;
-            String msgReply = "Hello from Server, you are #" + cnt;
+            String msgReply = "";
 
             try {
+
+                while(!activity.questionCompleted){
+                    //Waits while the user answers a question
+                }
+
+                activity.questionCompleted = false;
+
+                msgReply = activity.currentStringSend;
                 outputStream = hostThreadSocket.getOutputStream();
                 PrintStream printStream = new PrintStream(outputStream);
                 printStream.print(msgReply);
                 printStream.close();
 
-                message += "replayed: " + msgReply + "\n";
+                //message += "replayed: " + msgReply + "\n";
 
                 activity.runOnUiThread(new Runnable() {
 

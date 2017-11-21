@@ -6,52 +6,41 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Chronometer;
 import android.widget.TextView;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
-import java.net.ServerSocket;
-import java.net.Socket;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+    boolean questionCompleted = false;
+    double timer;
+    CountDownTimer countDownTimer;
     final Handler handler = new Handler();
     private int currentQuestionIndex = 0;
     private int currentIndexQuestionCategory = 0;
     TextView questionText;
+    String currentStringSend = "";
     private Button playButton;
     private Button difficultySelectionEasy;
     private Button difficultySelectionMedium;
     private Button difficultySelectionHard;
     private Button buttonStopReceiving;
     private TextView textViewDataFromClient;
+    private TextView countdownTimer;
     private Button question1;
     private Button answerA;
     private Button answerB;
     private Button answerC;
     private Button answerD;
-    private HistoryQuestion historyQuestion;
-    private SportQuestion sportQuestion;
-    private GeographyQuestion geographyQuestion;
-    private PopCultureQuestion popCultureQuestion;
-    private ScienceQuestion scienceQuestion;
-    private Question[] categoryQuestionArray = new Question[5];
     Server server;
-    TextView infoip, msg;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         //Initializing all UI elements
-
-        infoip = (TextView) findViewById(R.id.infoip);
-        msg = (TextView) findViewById(R.id.msg);
+        countdownTimer = (TextView) findViewById(R.id.countdownTimer);
         server = new Server(this);
-        //infoip.setText(server.getIpAddress() + ":" + server.getPort() + "\n");
         playButton = (Button) findViewById(R.id.playButton);
         questionText = (TextView) findViewById(R.id.questionText);
         answerA = (Button) findViewById(R.id.answerA);
@@ -76,27 +65,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         server.onDestroy();
     }
 
-    public void startGame(){
+    public void startGame(int difficulty){
         //Contains the logic for the game
-
+        removeUIGameMode();
         //Setting the array containing all of the question objects
+        /*
         categoryQuestionArray[0] = historyQuestion;
         categoryQuestionArray[1] = sportQuestion;
         categoryQuestionArray[2] = scienceQuestion;
         categoryQuestionArray[3] = geographyQuestion;
         categoryQuestionArray[4] = popCultureQuestion;
-        askQuestion(currentIndexQuestionCategory);
-
-        new CountDownTimer(30000, 1000) {
-
-            public void onTick(long millisUntilFinished) {
-                //questionText.setText("Temps restant: " + millisUntilFinished / 1000);
-            }
-
-            public void onFinish() {
-                //questionText.setText("Terminé!");
-            }
-        }.start();
+        */
+        //askQuestion(currentIndexQuestionCategory);
+        timer = System.currentTimeMillis();
+        sendDifficulty(difficulty);
+        //questionCompleted = false;
 
 
         //How to wait for next turn?
@@ -128,7 +111,89 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
          */
     }
 
-    public void handleReceivedData(String dataReceived){
+    public void startTimer(){
+       countDownTimer = new CountDownTimer(30000, 1000) {
+
+            public void onTick(long millisUntilFinished) {
+                countdownTimer.setText("Temps restant: " + millisUntilFinished / 1000);
+            }
+
+            public void onFinish() {
+                countdownTimer.setText("Terminé!");
+                verifyAnswers(4);
+            }
+        }.start();
+    }
+
+    public String handleReceivedData(String dataReceived){
+        if(dataReceived.length() == 0){
+            return "String of length 0";
+        }
+
+        questionCompleted = false;
+
+        switch(dataReceived.charAt(0)){
+            case '0': {
+                //String for question
+                removeUIGameMode();
+                questionText.setText(dataReceived.substring(1));
+            }break;
+
+            case '1': {
+                //Answer A
+                answerA.setText(dataReceived.substring(1));
+
+            }break;
+
+            case '2': {
+                //Answer B
+                answerB.setText(dataReceived.substring(1));
+            }break;
+
+            case '3': {
+                //Answer C
+                answerC.setText(dataReceived.substring(1));
+
+            }break;
+
+            case '4': {
+                //Answer D
+                answerD.setText(dataReceived.substring(1));
+
+            }break;
+
+            case '5': {
+                //Question success
+                updateUIAnswerSent("Bonne Réponse");
+
+            }break;
+
+            case '6': {
+                //Question failed
+                updateUIAnswerSent("Mauvaise Réponse");
+
+            }break;
+
+            case '7': {
+                //Game Completed
+                timer = System.currentTimeMillis() - timer;
+                int minute = (int) timer / 1000;
+                minute = minute / 60;
+                int seconde = (int) timer / 1000;
+                seconde = seconde % 60;
+                String timerText = "" + minute + "minutes " + seconde + " secondes";
+                updateUIAnswerSent(timerText);
+
+            }break;
+
+            case '8': {
+                //Load completed
+                //Show GameUI
+                updateUIGameMode();
+                startTimer();
+            }break;
+        }
+        return "No Valid Code!";
 
     }
 
@@ -154,6 +219,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void removeUIGameMode(){
+        countdownTimer.setActivated(false);
         questionText.setActivated(false);
         answerA.setActivated(false);
         answerB.setActivated(false);
@@ -165,14 +231,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         answerC.setVisibility(View.GONE);
         answerD.setVisibility(View.GONE);
         questionText.setVisibility(View.GONE);
+        countdownTimer.setVisibility(View.GONE);
     }
 
     public void removeUIPlayMode(){
-        playButton.setActivated(false);
+        //playButton.setActivated(false);
         playButton.setVisibility(View.INVISIBLE);
     }
 
     public void updateUIGameMode(){
+        countdownTimer.setActivated(true);
         questionText.setActivated(true);
         answerA.setActivated(true);
         answerB.setActivated(true);
@@ -184,6 +252,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         answerC.setVisibility(View.VISIBLE);
         answerD.setVisibility(View.VISIBLE);
         questionText.setVisibility(View.VISIBLE);
+        countdownTimer.setVisibility(View.VISIBLE);
     }
 
     public void updateUIPlayMode(){
@@ -191,22 +260,36 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         playButton.setVisibility(View.VISIBLE);
     }
 
-    protected void askQuestion(int questionCategoryIndex){
-        questionText.setText(categoryQuestionArray[questionCategoryIndex].obtainQuestion(currentQuestionIndex));
-        answerA.setText(categoryQuestionArray[questionCategoryIndex].obtainAnswer(currentQuestionIndex, 0));
-        answerB.setText(categoryQuestionArray[questionCategoryIndex].obtainAnswer(currentQuestionIndex, 1));
-        answerC.setText(categoryQuestionArray[questionCategoryIndex].obtainAnswer(currentQuestionIndex, 2));
-        answerD.setText(categoryQuestionArray[questionCategoryIndex].obtainAnswer(currentQuestionIndex, 3));
+    public void updateUIAnswerSent(String text){
+        questionText.setActivated(true);
+        questionText.setText(text);
+        questionText.setVisibility(View.VISIBLE);
+    }
+
+    public void sendDifficulty(int difficulty){
+        currentStringSend = "";
+        switch(difficulty){
+            case 0: currentStringSend = "0";break;
+            case 1: currentStringSend = "1";break;
+            case 2: currentStringSend = "2";break;
+        }
+        questionCompleted = true;
     }
 
     //Change so that the check is through the robot
-    public void verifyAnswers(int indexButtonClicked, int questionCategoryIndex){
-        if(categoryQuestionArray[questionCategoryIndex].obtainGoodAnswers(questionCategoryIndex) == indexButtonClicked){
-            questionText.setText("Correct!");
+    public void verifyAnswers(int indexButtonClicked){
+        countDownTimer.cancel();
+
+        switch(indexButtonClicked){
+            case 0: currentStringSend = "A";break;
+            case 1: currentStringSend = "B";break;
+            case 2: currentStringSend = "C";break;
+            case 3: currentStringSend = "D";break;
+            case 4: currentStringSend = "E";break;
         }
-        else{
-            questionText.setText("Mauvais!");
-        }
+        questionCompleted = true;
+        removeUIGameMode();
+        updateUIAnswerSent("Réponse Envoyée");
     }
 
     @Override
@@ -214,36 +297,42 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         switch (v.getId()) {
             case R.id.difficultySelectionEasy: {
+                /*
                 historyQuestion = new HistoryQuestion(0);
                 sportQuestion = new SportQuestion(0);
                 geographyQuestion = new GeographyQuestion(0);
                 popCultureQuestion = new PopCultureQuestion(0);
                 scienceQuestion = new ScienceQuestion(0);
+                */
                 removeUIDifficultySelection();
                 updateUIGameMode();
-                startGame();
+                startGame(0);
             }break;
 
             case R.id.difficultySelectionMedium: {
+                /*
                 historyQuestion = new HistoryQuestion(1);
                 sportQuestion = new SportQuestion(1);
                 geographyQuestion = new GeographyQuestion(1);
                 popCultureQuestion = new PopCultureQuestion(1);
                 scienceQuestion = new ScienceQuestion(1);
+                */
                 removeUIDifficultySelection();
                 updateUIGameMode();
-                startGame();
+                startGame(1);
             }break;
 
             case R.id.difficultySelectionHard: {
+                /*
                 historyQuestion = new HistoryQuestion(2);
                 sportQuestion = new SportQuestion(2);
                 geographyQuestion = new GeographyQuestion(2);
                 popCultureQuestion = new PopCultureQuestion(2);
                 scienceQuestion = new ScienceQuestion(2);
+                */
                 removeUIDifficultySelection();
                 updateUIGameMode();
-                startGame();
+                startGame(2);
             }break;
 
 
@@ -253,21 +342,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }break;
 
             case R.id.answerA: {
-                verifyAnswers(0, currentIndexQuestionCategory);
+                verifyAnswers(0);
             }break;
 
             case R.id.answerB: {
-                verifyAnswers(1, currentIndexQuestionCategory);
+                verifyAnswers(1);
 
             }break;
 
             case R.id.answerC: {
-                verifyAnswers(2, currentIndexQuestionCategory);
+                verifyAnswers(2);
 
             }break;
 
             case R.id.answerD: {
-                verifyAnswers(3, currentIndexQuestionCategory);
+                verifyAnswers(3);
             }break;
         }
 

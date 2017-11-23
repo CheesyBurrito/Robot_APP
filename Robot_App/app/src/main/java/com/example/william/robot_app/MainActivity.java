@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public void startGame(int difficulty){
         //Contains the logic for the game
-        removeUIGameMode();
+        //removeUIGameMode();
         //Setting the array containing all of the question objects
         /*
         categoryQuestionArray[0] = historyQuestion;
@@ -181,7 +181,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 minute = minute / 60;
                 int seconde = (int) timer / 1000;
                 seconde = seconde % 60;
-                String timerText = "" + minute + "minutes " + seconde + " secondes";
+                String timerText = "" + minute + " minutes " + seconde + " secondes";
                 updateUIAnswerSent(timerText);
 
             }break;

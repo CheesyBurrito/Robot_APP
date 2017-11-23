@@ -4,6 +4,7 @@
     android:layout_height="match_parent">
 
 
+
     <Button
         android:id="@+id/playButton"
         android:layout_width="wrap_content"
@@ -18,9 +19,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/playButton"
-        android:layout_marginEnd="24dp"
-        android:layout_marginTop="47dp"
-        android:layout_toStartOf="@+id/playButton"
+        android:layout_marginEnd="85dp"
+        android:layout_marginTop="60dp"
+        android:layout_toStartOf="@+id/questionText"
         android:onClick="onClick"
         android:text="Button" />
 
@@ -30,8 +31,8 @@
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/answerA"
         android:layout_alignBottom="@+id/answerA"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="24dp"
+        android:layout_marginStart="130dp"
+        android:layout_toEndOf="@+id/questionText"
         android:onClick="onClick"
         android:text="Button" />
 
@@ -41,7 +42,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignStart="@+id/answerA"
-        android:layout_marginBottom="30dp"
+        android:layout_marginBottom="25dp"
         android:onClick="onClick"
         android:text="Button" />
 

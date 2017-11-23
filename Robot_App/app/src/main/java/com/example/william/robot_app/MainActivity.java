@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public void startGame(int difficulty){
         //Contains the logic for the game
-        //removeUIGameMode();
+        removeUIGameMode();
         //Setting the array containing all of the question objects
         /*
         categoryQuestionArray[0] = historyQuestion;
@@ -79,6 +79,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //askQuestion(currentIndexQuestionCategory);
         timer = System.currentTimeMillis();
         sendDifficulty(difficulty);
+        updateUIAnswerSent("Connection au robot!");
         //questionCompleted = false;
 
 
@@ -193,6 +194,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startTimer();
             }break;
         }
+        //Will always return that...
         return "No Valid Code!";
 
     }

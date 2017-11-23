@@ -86,6 +86,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //How to wait for next turn?
         //Need to implement codes for colors, questions status,
 
+        //Add jeopardy question sound effect
+
 
 
         /**

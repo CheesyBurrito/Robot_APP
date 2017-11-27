@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="ca.usherbrooke.www.vrohms.Game">
+
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:columnCount="1"
+        android:rowCount="2">
+
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_row="0"
+            android:columnCount="1"
+            android:rowCount="2">
+
+            <TextView
+                android:id="@+id/questionTextLabel"
+                android:layout_width="match_parent"
+                android:layout_margin="15dp"
+                android:layout_row="0"
+                android:gravity="center"
+                android:text="QUESTION_TEXT"
+                android:textSize="25sp" />
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                style="@android:style/Widget.ProgressBar.Horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_row="1"
+                android:progress="0"
+                android:progressBackgroundTint="#E8EAF6"
+                android:progressTint="#3F51B5" />
+        </GridLayout>
+
+        <GridLayout
+            android:id="@+id/answersGridLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="34dp"
+            android:layout_row="1"
+            android:columnCount="1"
+            android:rowCount="4">
+
+            <Button
+                android:id="@+id/answerAAction"
+                android:layout_width="match_parent"
+                android:layout_row="0"
+                android:onClick="chooseAnswer"
+                android:tag="A"
+                android:text="OPTION_A"
+                android:textSize="18sp"/>
+
+            <Button
+                android:id="@+id/answerBAction"
+                android:layout_width="match_parent"
+                android:layout_row="1"
+                android:onClick="chooseAnswer"
+                android:tag="B"
+                android:text="OPTION_B"
+                android:textSize="18sp" />
+
+            <Button
+                android:id="@+id/answerCAction"
+                android:layout_width="match_parent"
+                android:layout_row="2"
+                android:onClick="chooseAnswer"
+                android:tag="C"
+                android:text="OPTION_C"
+                android:textSize="18sp" />
+
+            <Button
+                android:id="@+id/answerDAction"
+                android:layout_width="match_parent"
+                android:layout_row="3"
+                android:onClick="chooseAnswer"
+                android:tag="D"
+                android:text="OPTION_D"
+                android:textSize="18sp" />
+        </GridLayout>
+    </GridLayout>
+</android.support.constraint.ConstraintLayout>

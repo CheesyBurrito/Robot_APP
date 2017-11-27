@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="ca.usherbrooke.www.vrohms.DifficultySelection">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <GridLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_margin="15dp"
+            android:columnCount="1"
+            android:rowCount="4"
+            android:id="@+id/gridLayout2">
+
+            <TextView
+                android:layout_row="0"
+                android:textSize="30sp"
+                android:layout_marginBottom="30dp"
+                android:text="Veuillez choisir la difficulté !"
+                android:layout_width="fill_parent"/>
+
+            <Button
+                android:layout_row="1"
+                android:layout_width="match_parent"
+                android:backgroundTint="#8BC34A"
+                android:text="Facile"
+                android:textSize="30sp"
+                android:onClick="choseDifficulty"
+                android:tag="easyDifficulty"/>
+
+            <Button
+                android:layout_row="2"
+                android:layout_width="match_parent"
+                android:backgroundTint="#FFEB3B"
+                android:text="Intermédiaire"
+                android:textSize="30sp"
+                android:onClick="choseDifficulty"
+                android:tag="mediumDifficulty"/>
+
+            <Button
+                android:layout_row="3"
+                android:layout_width="match_parent"
+                android:backgroundTint="#FF5722"
+                android:text="Difficile"
+                android:textSize="30sp"
+                android:onClick="choseDifficulty"
+                android:tag="hardDifficulty"/>
+        </GridLayout>
+
+    </RelativeLayout>
+</android.support.constraint.ConstraintLayout>

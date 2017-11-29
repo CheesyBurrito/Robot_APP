@@ -14,7 +14,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     boolean questionCompleted = false;
     double timer;
-    CountDownTimer countDownTimer;
     final Handler handler = new Handler();
     private int currentQuestionIndex = 0;
     private int currentIndexQuestionCategory = 0;
@@ -26,7 +25,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button difficultySelectionHard;
     private Button buttonStopReceiving;
     private TextView textViewDataFromClient;
-    private TextView countdownTimer;
     private Button question1;
     private Button answerA;
     private Button answerB;
@@ -39,7 +37,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         //Initializing all UI elements
-        countdownTimer = (TextView) findViewById(R.id.countdownTimer);
         server = new Server(this);
         playButton = (Button) findViewById(R.id.playButton);
         questionText = (TextView) findViewById(R.id.questionText);
@@ -67,7 +64,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public void startGame(int difficulty){
         //Contains the logic for the game
-        removeUIGameMode();
+        //removeUIGameMode();
         //Setting the array containing all of the question objects
         /*
         categoryQuestionArray[0] = historyQuestion;
@@ -112,20 +109,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
          * 14- waits for other robot's turn to end???????????????
          *
          */
-    }
-
-    public void startTimer(){
-       countDownTimer = new CountDownTimer(30000, 1000) {
-
-            public void onTick(long millisUntilFinished) {
-                countdownTimer.setText("Temps restant: " + millisUntilFinished / 1000);
-            }
-
-            public void onFinish() {
-                countdownTimer.setText("Terminé!");
-                verifyAnswers(4);
-            }
-        }.start();
     }
 
     public String handleReceivedData(String dataReceived){
@@ -193,7 +176,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 //Load completed
                 //Show GameUI
                 updateUIGameMode();
-                startTimer();
             }break;
         }
         //Will always return that...
@@ -223,7 +205,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void removeUIGameMode(){
-        countdownTimer.setActivated(false);
         questionText.setActivated(false);
         answerA.setActivated(false);
         answerB.setActivated(false);
@@ -235,7 +216,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         answerC.setVisibility(View.GONE);
         answerD.setVisibility(View.GONE);
         questionText.setVisibility(View.GONE);
-        countdownTimer.setVisibility(View.GONE);
     }
 
     public void removeUIPlayMode(){
@@ -244,7 +224,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void updateUIGameMode(){
-        countdownTimer.setActivated(true);
         questionText.setActivated(true);
         answerA.setActivated(true);
         answerB.setActivated(true);
@@ -256,7 +235,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         answerC.setVisibility(View.VISIBLE);
         answerD.setVisibility(View.VISIBLE);
         questionText.setVisibility(View.VISIBLE);
-        countdownTimer.setVisibility(View.VISIBLE);
     }
 
     public void updateUIPlayMode(){
@@ -282,8 +260,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     //Change so that the check is through the robot
     public void verifyAnswers(int indexButtonClicked){
-        countDownTimer.cancel();
-
         switch(indexButtonClicked){
             case 0: currentStringSend = "A";break;
             case 1: currentStringSend = "B";break;

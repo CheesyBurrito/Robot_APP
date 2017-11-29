@@ -122,27 +122,8 @@ public class Server {
                     // block the call until connection is created and return
                     // Socket object
                     Socket socket = serverSocket.accept();
-                    DataInputStream dIn = new DataInputStream(socket.getInputStream());
-                    String messageFromClient = "";
 
 
-                    if(dIn.available() > 0){
-                        messageFromClient = dIn.readUTF();
-                    }
-
-
-                    count++;
-                    message += "#" + count + " from " + socket.getInetAddress()
-                            + ":" + socket.getPort() + "\n"
-                            + "Msg from client: " + messageFromClient + "\n";
-
-
-                    activity.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            //activity.questionText.setText(message);
-                        }
-                    });
 
                     SocketServerReplyThread socketServerReplyThread =
                             new SocketServerReplyThread(socket, count);
@@ -185,15 +166,6 @@ public class Server {
                 printStream.print(msgReply);
                 printStream.close();
 
-                //message += "replayed: " + msgReply + "\n";
-
-//                activity.runOnUiThread(new Runnable() {
-//
-//                    @Override
-//                    public void run() {
-//                        //activity.msg.setText(message);
-//                    }
-//                });
 
             } catch (IOException e) {
                 // TODO Auto-generated catch block
@@ -201,13 +173,6 @@ public class Server {
                 message += "Something wrong! " + e.toString() + "\n";
             }
 
-//            activity.runOnUiThread(new Runnable() {
-//
-//                @Override
-//                public void run() {
-//                   // activity.msg.setText(message);
-//                }
-//            });
         }
 
     }

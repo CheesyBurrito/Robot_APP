@@ -4,7 +4,6 @@
     android:layout_height="match_parent">
 
 
-
     <Button
         android:id="@+id/playButton"
         android:layout_width="wrap_content"
@@ -12,48 +11,47 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:onClick="onClick"
-        android:text="Jouer" />
+        android:text="Jouer"
+        android:visibility="gone" />
 
     <Button
         android:id="@+id/answerA"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/playButton"
-        android:layout_marginEnd="85dp"
-        android:layout_marginTop="60dp"
-        android:layout_toStartOf="@+id/questionText"
+        android:layout_above="@+id/answerB"
+        android:layout_alignStart="@+id/answerC"
+        android:layout_marginBottom="60dp"
         android:onClick="onClick"
-        android:text="Button" />
+        android:text="Reponse A" />
 
     <Button
         android:id="@+id/answerB"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/answerA"
-        android:layout_alignBottom="@+id/answerA"
-        android:layout_marginStart="130dp"
-        android:layout_toEndOf="@+id/questionText"
+        android:layout_alignStart="@+id/answerA"
+        android:layout_centerVertical="true"
         android:onClick="onClick"
-        android:text="Button" />
+        android:text="Reponse B" />
 
     <Button
         android:id="@+id/answerC"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignStart="@+id/answerA"
-        android:layout_marginBottom="25dp"
+        android:layout_below="@+id/answerB"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp"
         android:onClick="onClick"
-        android:text="Button" />
+        android:text="Reponse C" />
 
     <Button
         android:id="@+id/answerD"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/answerB"
-        android:layout_alignTop="@+id/answerC"
+        android:layout_alignStart="@+id/answerC"
+        android:layout_below="@+id/answerC"
+        android:layout_marginTop="33dp"
         android:onClick="onClick"
-        android:text="Button" />
+        android:text="Reponse D" />
 
     <TextView
         android:id="@+id/questionText"
@@ -73,8 +71,10 @@
         android:layout_alignStart="@+id/playButton"
         android:layout_below="@+id/questionText"
         android:layout_marginTop="36dp"
+        android:backgroundTint="#8BC34A"
         android:onClick="onClick"
-        android:text="Facile" />
+        android:text="Facile"
+        android:visibility="gone" />
 
     <Button
         android:id="@+id/difficultySelectionMedium"
@@ -83,8 +83,10 @@
         android:layout_alignStart="@+id/difficultySelectionEasy"
         android:layout_below="@+id/difficultySelectionEasy"
         android:layout_marginTop="15dp"
+        android:backgroundTint="#FFEB3B"
         android:onClick="onClick"
-        android:text="Moyen" />
+        android:text="Intermédiaire"
+        android:visibility="gone" />
 
     <Button
         android:id="@+id/difficultySelectionHard"
@@ -93,15 +95,9 @@
         android:layout_alignStart="@+id/playButton"
         android:layout_below="@+id/difficultySelectionMedium"
         android:layout_marginTop="12dp"
+        android:backgroundTint="#FF5722"
         android:onClick="onClick"
-        android:text="Difficile" />
-
-    <TextView
-        android:id="@+id/countdownTimer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/difficultySelectionEasy"
-        android:layout_centerHorizontal="true"
-        android:text="TextView"
+        android:text="Difficile"
         android:visibility="gone" />
+
 </RelativeLayout>

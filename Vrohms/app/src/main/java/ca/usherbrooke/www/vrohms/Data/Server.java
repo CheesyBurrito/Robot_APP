@@ -1,5 +1,7 @@
 package ca.usherbrooke.www.vrohms.Data;
 
+import android.util.Log;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -29,6 +31,7 @@ public class Server
         Thread socketServerThread = new Thread(new SocketServerThread());
         socketServerThread.start();
         startServerSocket();
+        Log.d("TEST", "new Server()");
     }
 
     private void startServerSocket()
@@ -43,6 +46,7 @@ public class Server
                 try
                 {
                     ServerSocket ss = new ServerSocket(9002);
+                    Log.v("TEST", "new ServerSocket()");
 
                     while (!end)
                     {
@@ -57,7 +61,7 @@ public class Server
 
                         try
                         {
-                            Thread.sleep(250);
+                            Thread.sleep(50);
                         }
                         catch (InterruptedException e)
                         {
@@ -65,6 +69,7 @@ public class Server
                         }
 
                         //Handles the received string
+
                         parent.onDataReceived(dataString);
 
                         if (dataString.equalsIgnoreCase("STOP"))

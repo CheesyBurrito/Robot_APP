@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:screenOrientation="portrait"
     tools:context="ca.usherbrooke.www.vrohms.DifficultySelection">
 
     <RelativeLayout
@@ -29,7 +30,7 @@
             <Button
                 android:layout_row="1"
                 android:layout_width="match_parent"
-                android:backgroundTint="#8BC34A"
+                android:background="#8BC34A"
                 android:text="Facile"
                 android:textSize="30sp"
                 android:onClick="choseDifficulty"
@@ -38,7 +39,7 @@
             <Button
                 android:layout_row="2"
                 android:layout_width="match_parent"
-                android:backgroundTint="#FFEB3B"
+                android:background="#FFEB3B"
                 android:text="Intermédiaire"
                 android:textSize="30sp"
                 android:onClick="choseDifficulty"
@@ -47,7 +48,7 @@
             <Button
                 android:layout_row="3"
                 android:layout_width="match_parent"
-                android:backgroundTint="#FF5722"
+                android:background="#FF5722"
                 android:text="Difficile"
                 android:textSize="30sp"
                 android:onClick="choseDifficulty"

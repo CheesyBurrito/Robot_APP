@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:screenOrientation="portrait"
     tools:context="ca.usherbrooke.www.vrohms.Game">
 
     <GridLayout
@@ -30,15 +31,6 @@
                 android:text="QUESTION_TEXT"
                 android:textSize="25sp" />
 
-            <ProgressBar
-                android:id="@+id/progressBar"
-                style="@android:style/Widget.ProgressBar.Horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_row="1"
-                android:progress="0"
-                android:progressBackgroundTint="#E8EAF6"
-                android:progressTint="#3F51B5" />
         </GridLayout>
 
         <GridLayout

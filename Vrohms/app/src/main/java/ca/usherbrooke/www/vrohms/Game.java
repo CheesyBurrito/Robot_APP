@@ -1,8 +1,10 @@
 package ca.usherbrooke.www.vrohms;
 
+import android.graphics.Color;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.GridLayout;
@@ -15,19 +17,17 @@ import ca.usherbrooke.www.vrohms.Models.Question;
 
 public class Game extends AppCompatActivity implements MessageReceivedListener
 {
-    public static final int QUESTION_TIMER_DELAY = 120000;
-
     private RobotDao robotDao;
-    private CountDownTimer questionTimer;
 
     protected TextView questionTextLabel;
-    protected ProgressBar progressBar;
     protected GridLayout answersGridLayout;
     protected Button answerAAction;
     protected Button answerBAction;
     protected Button answerCAction;
     protected Button answerDAction;
 
+    private Question currentQuestion;
+    private Boolean isCorrect;
 
 
     @Override
@@ -37,7 +37,6 @@ public class Game extends AppCompatActivity implements MessageReceivedListener
         setContentView(R.layout.activity_game);
 
         questionTextLabel = (TextView) findViewById(R.id.questionTextLabel);
-        progressBar = (ProgressBar) findViewById(R.id.progressBar);
         answersGridLayout = (GridLayout) findViewById(R.id.answersGridLayout);
         answerAAction = (Button) findViewById(R.id.answerAAction);
         answerBAction = (Button) findViewById(R.id.answerBAction);
@@ -56,9 +55,6 @@ public class Game extends AppCompatActivity implements MessageReceivedListener
     {
         super.onDestroy();
         robotDao.removeListener(this);
-
-        if (questionTimer != null)
-            questionTimer.cancel();
     }
 
 
@@ -66,31 +62,59 @@ public class Game extends AppCompatActivity implements MessageReceivedListener
     @Override
     public void onQuestionReceived(Question question)
     {
-        answersGridLayout.setVisibility(View.VISIBLE);
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
 
-        questionTextLabel.setText(question.getStatement());
-        answerAAction.setText(question.getAnswerA());
-        answerBAction.setText(question.getAnswerB());
-        answerCAction.setText(question.getAnswerC());
-        answerDAction.setText(question.getAnswerD());
+                questionTextLabel.setTextColor(Color.BLACK);
+                answersGridLayout.setVisibility(View.VISIBLE);
+                Question question = robotDao.getPendingQuestion();
 
-        startTimer();
+                questionTextLabel.setText(question.getStatement());
+                answerAAction.setText(question.getAnswerA());
+                answerBAction.setText(question.getAnswerB());
+                answerCAction.setText(question.getAnswerC());
+                answerDAction.setText(question.getAnswerD());
+            }
+        });
     }
 
     @Override
-    public void onQuestionSuccess(Boolean isCorrect)
+    public void onQuestionSuccess(Boolean data)
     {
-        if (isCorrect)
-            questionTextLabel.setText("Bonne réponse !");
-        else
-            questionTextLabel.setText("Mauvaise réponse :(");
+        runOnUiThread(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                Boolean isCorrect = robotDao.getIsCorrect();
+
+                if (isCorrect)
+                {
+                    questionTextLabel.setTextColor(0xFF8BC34A);
+                    questionTextLabel.setText("Bonne réponse !");
+                }
+                else
+                {
+                    questionTextLabel.setTextColor(0xFFFF5722);
+                    questionTextLabel.setText("Mauvaise réponse :(");
+                }
+            }
+        });
     }
 
     @Override
     public void onGameSessionEnd()
     {
-        // return to main screen
-        finish();
+        runOnUiThread(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                setResult(RESULT_OK);
+                finish();
+            }
+        });
     }
 
 
@@ -100,30 +124,7 @@ public class Game extends AppCompatActivity implements MessageReceivedListener
         String answer = view.getTag().toString();
         robotDao.sendAnswer(answer);
 
-        questionTimer.cancel();
         answersGridLayout.setVisibility(View.GONE);
-        //questionTextLabel.setText("Réponse envoyée  !");
-    }
-
-    private void startTimer()
-    {
-        progressBar.setProgress(0);
-
-        questionTimer = new CountDownTimer(QUESTION_TIMER_DELAY, 250)
-        {
-            public void onTick(long millisUntilFinished)
-            {
-                //countdownTimer.setText("Temps restant: " + millisUntilFinished / 1000);
-                int percentageLeft = (int) (millisUntilFinished / QUESTION_TIMER_DELAY * 100);
-                progressBar.setProgress(percentageLeft);
-            }
-
-            public void onFinish()
-            {
-                robotDao.sendAnswer("E");
-            }
-
-        }.start();
     }
 
 }

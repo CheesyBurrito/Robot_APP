@@ -74,6 +74,7 @@ public class Vrohms extends AppCompatActivity
             String timerText = minute + " minutes " + seconde + " secondes";
             centerLabel.setText(timerText);
 
+
             // game has ended
             // display victory screen with time
             // reset display and server

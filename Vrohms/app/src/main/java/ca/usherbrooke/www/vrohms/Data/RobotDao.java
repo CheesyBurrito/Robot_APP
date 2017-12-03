@@ -20,6 +20,7 @@ public class RobotDao
     //private Boolean dataLock = false;
     private List<MessageReceivedListener> listeners = new ArrayList<MessageReceivedListener>();
     private Question pendingQuestion = null;
+    private Boolean isCorrect;
 
 
 
@@ -96,15 +97,18 @@ public class RobotDao
                 // once all fields are filled, send question to listeners
                 if (pendingQuestion.isQuestionComplete())
                 {
-                    for (MessageReceivedListener l : listeners)
+                    for (MessageReceivedListener l : listeners )
+                    {
                         l.onQuestionReceived(pendingQuestion);
-                    pendingQuestion = null;
+                    }
+                    //pendingQuestion = null;
                 }
                 break;
             }
             case '5':
             case '6':
             {
+                this.isCorrect = messageType == '5';
                 for (MessageReceivedListener l : listeners)
                     l.onQuestionSuccess(messageType == '5');
                 break;
@@ -121,5 +125,17 @@ public class RobotDao
                 break;
             }
         }
+    }
+
+    public Question getPendingQuestion()
+    {
+        Question question = pendingQuestion;
+        pendingQuestion = null;
+        return question;
+    }
+
+    public Boolean getIsCorrect()
+    {
+        return isCorrect;
     }
 }
